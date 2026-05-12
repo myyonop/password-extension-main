@@ -32,7 +32,7 @@
 
 /* 최소화(접힘) 상태 스타일 */
 #pwguard-panel.minimized {
-  width: 200px; /* 접혔을 때 너비 축소 */
+  width: 250px; /* 접혔을 때 너비 축소 */
 }
 
 #pwguard-panel.minimized .pwguard-body {
