@@ -351,7 +351,7 @@ const normalizeAnalyzerResult = (result) => ({
     if (lastTypedPassword.length < 4) return
 
     const domain = getSiteName()
-    window.PwUtils?.hashPassword(lastTypedPassword).then((hash) => {
+    window.PwUtils?.sha1Hex(lastTypedPassword).then((hash) => {
       chrome.runtime.sendMessage({
         action: 'attemptLogin',
         payload: { hash, domain },

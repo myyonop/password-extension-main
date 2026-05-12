@@ -71,6 +71,14 @@
         color: #fff;
       }
 
+      /* 인증 메일 재전송 */
+      #resend-btn {
+        display: none;
+
+        background: #f59e0b;
+        color: #fff;
+      }
+
       /* 로그아웃 버튼 */
       #logout-btn {
         background: #f55;
@@ -114,6 +122,16 @@
       #status-msg a:hover {
         text-decoration: underline;
       }
+
+      /* 안내 문구 */
+      .info-text {
+        font-size: 11px;
+        color: #999;
+
+        margin: 6px 0 0;
+
+        line-height: 1.4;
+      }
     </style>
   </head>
 
@@ -123,22 +141,35 @@
     <!-- 로그인 영역 -->
     <div id="auth-section">
 
+      <!-- 이메일 -->
       <input
         type="email"
         id="email"
         placeholder="이메일"
       />
 
+      <!-- 비밀번호 -->
       <input
         type="password"
         id="password"
         placeholder="비밀번호"
       />
 
-      <!-- 로그인 버튼만 존재 -->
+      <!-- 로그인 -->
       <button id="login-btn">
         로그인
       </button>
+
+      <!-- 인증 메일 재전송 -->
+      <button id="resend-btn">
+        인증 메일 재전송
+      </button>
+
+      <!-- 안내 -->
+      <p class="info-text">
+        ※ 회원가입 후 이메일 인증이 완료되어야
+        로그인할 수 있습니다.
+      </p>
 
       <!-- 상태 메시지 -->
       <div id="status-msg"></div>
@@ -148,8 +179,10 @@
     <!-- 로그인 성공 영역 -->
     <div id="success-section">
 
+      <!-- 사용자 이메일 -->
       <p id="user-email"></p>
 
+      <!-- 설명 -->
       <p
         style="
           color:#555;
