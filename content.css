@@ -16,6 +16,7 @@
   color: #374151;
   display: none;
   overflow: hidden;
+
   /* 드래그 시 반응성을 위해 기본 상태에만 트랜지션 적용 */
   transition:
     opacity 0.2s,
@@ -25,16 +26,22 @@
 /* 드래그 중일 때의 스타일 (JS에서 제어) */
 #pwguard-panel.is-dragging {
   cursor: move;
-  opacity: 0.85; /* 이동 중임을 나타내기 위해 살짝 투명화 */
-  transition: none !important; /* 드래그 시 즉각적인 반응을 위해 트랜지션 제거 */
+  opacity: 0.85;
+  transition: none !important;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
 }
 
 /* 최소화(접힘) 상태 스타일 */
 #pwguard-panel.minimized {
-  width: 250px; /* 접혔을 때 너비 축소 */
+  width: 280px;
 }
 
+/* 최소화 시 헤더 높이 고정 */
+#pwguard-panel.minimized .pwguard-header {
+  height: 40px;
+}
+
+/* 최소화 시 본문 여백 축소 */
 #pwguard-panel.minimized .pwguard-body {
   padding: 8px 12px;
 }
@@ -46,7 +53,7 @@
   display: none !important;
 }
 
-/* 다크 모드 */
+/* ── 다크 모드 ─────────────────────────────────────────── */
 @media (prefers-color-scheme: dark) {
   #pwguard-panel {
     background: #1f2937;
@@ -55,35 +62,63 @@
   }
 }
 
-/* ── 헤더 (드래그 핸들) ────────────────────────────────────── */
+/* ── 헤더 ───────────────────────────── */
 .pwguard-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+
   padding: 10px 14px;
+
   background: #f9fafb;
   border-bottom: 1px solid #e5e7eb;
-  cursor: move; /* 이동 가능함을 알리는 커서 */
-  user-select: none; /* 드래그 중 텍스트 선택 방지 */
+
+  cursor: move;
+  user-select: none;
+
+  gap: 10px;
+
+  overflow: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-  .pwguard-header {
-    background: #111827;
-    border-bottom-color: #374151;
-  }
-}
-
+/* 제목 */
 .pwguard-title {
+  flex: 1 1 auto;
+
   font-size: 12px;
   font-weight: 600;
-  pointer-events: none; /* 제목 클릭 시 드래그 방해 금지 */
+
+  min-width: 0;
+
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  line-height: 1.2;
 }
 
-/* ── 컨트롤 버튼들 ────────────────────────────────────────── */
+/* 버튼 영역 */
 .pwguard-controls {
   display: flex;
+  align-items: center;
+  gap: 6px;
+
+  flex: 0 0 auto;
+}
+
+/* 최소화 상태 */
+#pwguard-panel.minimized {
+  width: 280px;
+}
+
+/* ── 컨트롤 버튼 영역 ───────────────────────────────────── */
+.pwguard-controls {
+  display: flex;
+  align-items: center;
   gap: 8px;
+
+  flex-shrink: 0;
 }
 
 .pwguard-minimize-btn,
@@ -91,10 +126,14 @@
   background: transparent;
   border: none;
   cursor: pointer;
+
   font-size: 16px;
-  color: #9ca3af;
   line-height: 1;
+
+  color: #9ca3af;
+
   padding: 2px 4px;
+
   transition: color 0.2s;
 }
 
@@ -103,7 +142,13 @@
 }
 
 .pwguard-close:hover {
-  color: #ef4444; /* 호버 시에만 살짝 빨간색 */
+  color: #ef4444;
+}
+
+@media (prefers-color-scheme: dark) {
+  .pwguard-minimize-btn:hover {
+    color: #f3f4f6;
+  }
 }
 
 /* ── 본문 ───────────────────────────────────────────────── */
@@ -116,6 +161,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   margin-bottom: 6px;
 }
 
@@ -124,12 +170,13 @@
   font-size: 14px;
 }
 
-/* ── 프로그레스 바 ────────────────────────────── */
+/* ── 프로그레스 바 ─────────────────────────────────────── */
 .pwguard-strength-bar-wrap {
   height: 6px;
   background: #e5e7eb;
   border-radius: 3px;
   overflow: hidden;
+
   margin-bottom: 10px;
 }
 
@@ -142,16 +189,19 @@
 .pwguard-strength-bar {
   height: 100%;
   width: 0%;
-  transition: width 0.3s ease-out; /* 부드러운 이동 */
+
+  transition: width 0.3s ease-out;
 }
 
-/* 범용적인 상태 색상 (위험/보통/안전) */
+/* 상태 색상 */
 .pwguard-strength-bar.bar-danger {
   background-color: #ef4444;
 }
+
 .pwguard-strength-bar.bar-normal {
   background-color: #f59e0b;
 }
+
 .pwguard-strength-bar.bar-safe {
   background-color: #10b981;
 }
@@ -164,17 +214,21 @@
 }
 
 .pwguard-warning-item {
+  position: relative;
+
+  margin-top: 4px;
+  padding-left: 12px;
+
   font-size: 12px;
   color: #6b7280;
-  padding-left: 12px;
-  position: relative;
-  margin-top: 4px;
 }
 
 .pwguard-warning-item::before {
   content: '•';
+
   position: absolute;
   left: 0;
+
   color: #9ca3af;
 }
 
@@ -184,9 +238,30 @@
   }
 }
 
-/* ── 재사용 섹션 (기본) ────────────────────────────────────── */
+/* ── 재사용 섹션 ────────────────────────────────────────── */
 .pwguard-reuse-section {
   margin-top: 10px;
   padding-top: 10px;
+
   border-top: 1px solid #e5e7eb;
+}
+
+@media (prefers-color-scheme: dark) {
+  .pwguard-reuse-section {
+    border-top-color: #374151;
+  }
+}
+
+/* ── 장기 사용 섹션 ─────────────────────────────────────── */
+.pwguard-longuse-section {
+  margin-top: 10px;
+  padding-top: 10px;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+@media (prefers-color-scheme: dark) {
+  .pwguard-longuse-section {
+    border-top-color: #374151;
+  }
 }
